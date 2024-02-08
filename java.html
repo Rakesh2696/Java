@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Service</title>
+</head>
+<body>
+    <h1>XML Data from Java Service:</h1>
+    <div id="dataContainer"></div>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', function () { 
+             fetchData(); 
+         }); 	
+	
+	function fetchData() {
+var xhr = new XMLHttpRequest();
+
+            // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint
+            xhr.open('GET', 'http://99.99.96.20:8080/KICT/rest/yardPlanning/yard', true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // Process the retrieved data
+                        <!-- var data = JSON.parse(xhr.responseXML); -->
+                        var data = xhr.responseXML;
+                        console.log(data);
+                    } else if (xhr.status === 302) {
+                        // Follow the redirect
+                        var redirectUrl = xhr.getResponseHeader('Location');
+                        if (redirectUrl) {
+                            fetchDataFromRedirect(redirectUrl);
+                        } else {
+                            console.error('Redirect URL not found.');
+                        }
+                    } else {
+                        console.error('Error fetching data. Status:', xhr.status);
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+
+        function fetchDataFromRedirect(redirectUrl) {
+            var xhrRedirect = new XMLHttpRequest();
+
+            xhrRedirect.open('GET', redirectUrl, true);
+
+            xhrRedirect.onreadystatechange = function () {
+                if (xhrRedirect.readyState === 4 && xhrRedirect.status === 200) {
+                    // Process the redirected data
+                    var data = JSON.parse(xhrRedirect.responseText);
+                    console.log('Data from redirected URL:', data);
+                } else {
+                    console.error('Error fetching data from redirected URL. Status:', xhrRedirect.status);
+                }
+            };
+
+            xhrRedirect.send();
+        }
+	
+	<!-- var oXmlHttp = new XMLHttpRequest(); -->
+    <!-- oXmlHttp.open("GET", -->
+ <!-- "https://192.168.0.107/PICTDEV_SOAP/PayloadInvoice.asmx/HelloWorld", -->
+ <!-- false); -->
+    <!-- oXmlHttp.setRequestHeader("Content-Type", "text/xml; charset=utf-8"); -->
+    <!-- oXmlHttp.setRequestHeader("Access-Control-Allow-Origin", "https://foo.example"); -->
+    <!-- //oXmlHttp.setRequestHeader("SOAPAction", "http://tempuri.org/AddTwoIntegers"); -->
+    <!-- oXmlHttp.send(""); -->
+    <!-- console.log( oXmlHttp.responseXML.selectSingleNode("//AddTwoIntegersResult").text); -->
+	
+	
+	
+<!-- fetch('https://192.168.0.107/PICTDEV_SOAP/PayloadInvoice.asmx/HelloWorld', { -->
+    <!-- method: 'GET', -->
+    <!-- headers: { -->
+      <!-- Accept: 'application/xml', -->
+	  <!-- Host:'<calculated when request is sent>', -->
+      <!-- //Authorization: 'Bearer YOUR_TOKEN -->
+	  <!-- 'Content-Type': 'application/xml' -->
+    <!-- }, -->
+  <!-- }) -->
+    <!-- .then(response => { -->
+      <!-- if (!response.ok) { -->
+        <!-- throw new Error(`Error! status: ${response.status}`); -->
+      <!-- } -->
+
+      <!-- return response.json(); -->
+    <!-- }) -->
+    <!-- .catch(error => { -->
+      <!-- console.log('error: ', error); -->
+    <!-- }); -->
+
+    </script>
+</body>
+</html>
